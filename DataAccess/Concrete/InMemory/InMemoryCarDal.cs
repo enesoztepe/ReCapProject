@@ -47,11 +47,9 @@ namespace DataAccess.Concrete.InMemory
             return _cars;
         }
 
-        public Car GetById(int Id)
-        { // Id ler Pk olduğundan tek bir kayıt gelcektir.
-            return (Car)_cars.Where(c => c.Id == Id);
+        public List<Car> GetById(int Id)
+        {
+            return _cars.Where(c => c.Id == Id).ToList();
         }
-
-
     }
 }
