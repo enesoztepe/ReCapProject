@@ -48,9 +48,9 @@ namespace DataAccess.Concrete.InMemory
             return _cars;
         }
 
-        public List<Car> GetById(int Id)
+        public Car GetById(int Id)
         {
-            return _cars.Where(c => c.Id == Id).ToList();
+            return _cars.SingleOrDefault(c => c.Id == Id);
         }
 
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
