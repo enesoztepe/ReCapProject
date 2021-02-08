@@ -10,7 +10,7 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            // CarServiceTest();
+            CarServiceTest();
             // BrandServiceTest();
             // ColorServiceTest();
 
