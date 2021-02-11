@@ -38,16 +38,37 @@ namespace Business.Concrete
         }
         public void Add(Car car)
         {
-            _carDal.Add(car);
+            if (car.Name.Length < 2)
+            {
+                Console.WriteLine("İsim minimum 2 karakter olmak zorundadır.");
+            }
+            else if (car.DailyPrice < 0)
+            {
+                Console.WriteLine("Günlük Fiyat 0 dan büyük olmak zorundadır.");
+            }
+            else
+            {
+                _carDal.Add(car);
+            }
         }
-
         public void Delete(Car car)
         {
             _carDal.Delete(car);
         }
         public void Update(Car car)
         {
-            _carDal.Update(car);
+            if (car.Name.Length < 2)
+            {
+                Console.WriteLine("İsim minimum 2 karakter olmak zorundadır.");
+            }
+            else if (car.DailyPrice < 0)
+            {
+                Console.WriteLine("Günlük Fiyat 0 dan büyük olmak zorundadır.");
+            }
+            else
+            {
+                _carDal.Update(car);
+            }
         }
 
         public List<CarDetailDto> GetCarDetails()
