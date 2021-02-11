@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Untilities;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -9,8 +10,8 @@ namespace Business.Abstract
 {
     public interface ICarService : ICrudService<Car>
     {
-        List<Car> GetCarsByBrandId(int id);
-        List<Car> GetCarsByColorId(int id);
-        List<CarDetailDto> GetCarDetails();
+        IDataResult<List<Car>> GetCarsByBrandId(int id);
+        IDataResult<List<Car>> GetCarsByColorId(int id);
+        IDataResult<List<CarDetailDto>> GetCarDetails();
     }
 }
