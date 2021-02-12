@@ -31,5 +31,6 @@ namespace Business.Constants
         public static string RentalAdded = "Kiralama tamamlandı";
         public static string RentalUpdated = "Kiralama güncellendi";
         public static string RentalDeleted = "Kiralama silindi";
+        public static string NotRentable = "Araba kiralanabilir değildir";
     }
 }

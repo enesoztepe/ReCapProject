@@ -10,9 +10,12 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarServiceTest();
-            BrandServiceTest();
-            ColorServiceTest();
+            // CarServiceTest();
+            // BrandServiceTest();
+            // ColorServiceTest();
+            // UserServiceTest();
+            // CustomerServiceTest();
+            RentalServiceTest();
 
             Console.ReadKey();
         }
@@ -313,6 +316,281 @@ namespace ConsoleUI
                 Console.WriteLine(result.Message);
         }
         #endregion
-        
+        #region UserTestServices
+        static void UserServiceTest()
+        {
+            Console.Clear();
+            UserManager userManager = new UserManager(new EfUserDal());
+            UserGetAll(userManager);
+            UserGetById(userManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            UserGetAll(userManager);
+            UserInsert(userManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            UserGetAll(userManager);
+            UserUpdate(userManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            UserGetAll(userManager);
+            UserDelete(userManager);
+            Console.ReadKey();
+        }
+        static void UserGetAll(UserManager userManager)
+        {
+            Console.WriteLine("\nUsers,\nId\tFName\tLName\tEmail\t\t\tPassword");
+            foreach (var user in userManager.GetAll().Data)
+            {
+                Console.WriteLine(user.Id + "\t" + user.FirstName + "\t" + user.LastName + "\t" + user.Email + "\t" + user.Password);
+            }
+        }
+        static void UserGetById(UserManager userManager)
+        {
+            Console.Write("Id giriniz : ");
+            int id = int.Parse(Console.ReadLine());
+            User user = userManager.GetById(id).Data;
+            Console.WriteLine(user.Id + "\t" + user.FirstName + "\t" + user.LastName + "\t" + user.Email + "\t" + user.Password);
+        }
+        static void UserInsert(UserManager userManager)
+        {
+            User insertedUser = new User();
+            Console.WriteLine("User ekleme bilgilerini giriniz,");
+            Console.Write("FistName : ");
+            insertedUser.FirstName = Console.ReadLine();
+            Console.Write("LastName : ");
+            insertedUser.LastName = Console.ReadLine();
+            Console.Write("Email : ");
+            insertedUser.Email = Console.ReadLine();
+            Console.Write("Password : ");
+            insertedUser.Password = Console.ReadLine();
+            var result = userManager.Add(insertedUser);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        static void UserUpdate(UserManager userManager)
+        {
+            Console.Write("Güncellemek istediğiniz kullanıcının idsini giriniz : ");
+            int userIdUpdate = int.Parse(Console.ReadLine());
+            User updatedUser = userManager.GetById(userIdUpdate).Data;
+            Console.Write("FistName : ");
+            updatedUser.FirstName = Console.ReadLine();
+            Console.Write("LastName : ");
+            updatedUser.LastName = Console.ReadLine();
+            Console.Write("Email : ");
+            updatedUser.Email = Console.ReadLine();
+            Console.Write("Password : ");
+            updatedUser.Password = Console.ReadLine();
+            var result = userManager.Update(updatedUser);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        static void UserDelete(UserManager userManager)
+        {
+            User deletedUser = new User();
+            Console.Write("Silmek istediğiniz kullanıcının idsini giriniz : ");
+            deletedUser.Id = int.Parse(Console.ReadLine());
+            var result = userManager.Delete(deletedUser);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        #endregion
+        #region CustomerTestServices
+        static void CustomerServiceTest()
+        {
+            Console.Clear();
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            CustomerGetAll(customerManager);
+            CustomerGetById(customerManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            CustomerGetAll(customerManager);
+            UserGetAll(userManager);
+            CustomerInsert(customerManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            CustomerGetAll(customerManager);
+            UserGetAll(userManager);
+            CustomerUpdate(customerManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            CustomerGetAll(customerManager);
+            UserGetAll(userManager);
+            CustomerDelete(customerManager);
+            Console.ReadKey();
+        }
+        static void CustomerGetAll(CustomerManager customerManager)
+        {
+            Console.WriteLine("\nCustomers,\nId\tUserId\tCompanyName");
+            foreach (var customer in customerManager.GetAll().Data)
+            {
+                Console.WriteLine(customer.Id + "\t" + customer.UserId + "\t" + customer.CompanyName);
+            }
+        }
+        static void CustomerGetById(CustomerManager customerManager)
+        {
+            Console.Write("Id giriniz : ");
+            int id = int.Parse(Console.ReadLine());
+            Customer customer = customerManager.GetById(id).Data;
+            Console.WriteLine(customer.Id + "\t" + customer.UserId + "\t" + customer.CompanyName);
+        }
+        static void CustomerInsert(CustomerManager customerManager)
+        {
+            Customer insertedCustomer = new Customer();
+            Console.WriteLine("Müşteri ekleme bilgilerini giriniz,");
+            Console.Write("UserId : ");
+            insertedCustomer.UserId = int.Parse(Console.ReadLine());
+            Console.Write("CompanyName : ");
+            insertedCustomer.CompanyName = Console.ReadLine(); 
+            var result = customerManager.Add(insertedCustomer);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        static void CustomerUpdate(CustomerManager customerManager)
+        {
+            Console.Write("Güncellemek istediğiniz müşterinin idsini giriniz : ");
+            int customerIdUpdate = int.Parse(Console.ReadLine());
+            Customer updatedCustomer = customerManager.GetById(customerIdUpdate).Data;
+            Console.Write("UserId : ");
+            updatedCustomer.UserId = int.Parse(Console.ReadLine());
+            Console.Write("CompanyName : ");
+            updatedCustomer.CompanyName = Console.ReadLine();
+            var result = customerManager.Update(updatedCustomer);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        static void CustomerDelete(CustomerManager customerManager)
+        {
+            Customer deletedCustomer = new Customer();
+            Console.Write("Silmek istediğiniz müşterinin idsini giriniz : ");
+            deletedCustomer.Id = int.Parse(Console.ReadLine());
+            var result = customerManager.Delete(deletedCustomer);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        #endregion
+        #region RentalTestServices
+        static void RentalServiceTest()
+        {
+            Console.Clear();
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            CarManager carManager = new CarManager(new EfCarDal());
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            RentalGetAll(rentalManager);
+            RentalGetById(rentalManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            RentalGetAll(rentalManager);
+            CarGetAll(carManager);
+            CustomerGetAll(customerManager);
+            RentalInsert(rentalManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            RentalGetAll(rentalManager);
+            CarGetAll(carManager);
+            CustomerGetAll(customerManager);
+            RentalUpdate(rentalManager);
+            Console.ReadKey();
+
+            Console.Clear();
+            RentalGetAll(rentalManager);
+            RentalDelete(rentalManager);
+            Console.ReadKey();
+        }
+        static void RentalGetAll(RentalManager rentalManager)
+        {
+            Console.WriteLine("\nRentals,\nId\tCarId\tCustomerId\tRentDate\t\tRetrunDate");
+            foreach (var rental in rentalManager.GetAll().Data)
+            {
+                Console.WriteLine(rental.Id + "\t" + rental.CarId + "\t" + rental.CustomerId + "\t\t" + rental.RentDate + "\t" + rental.ReturnDate);
+            }
+        }
+        static void RentalGetById(RentalManager rentalManager)
+        {
+            Console.Write("Id giriniz : ");
+            int id = int.Parse(Console.ReadLine());
+            Rental rental = rentalManager.GetById(id).Data;
+            Console.WriteLine(rental.Id + "\t" + rental.CarId + "\t" + rental.CustomerId + "\t" + rental.RentDate + "\t" + rental.ReturnDate);
+        }
+        static void RentalInsert(RentalManager rentalManager)
+        {
+            Rental? insertedRental = new Rental();
+            Console.WriteLine("Kiralama bilgilerini giriniz,");
+            Console.Write("CarId : ");
+            insertedRental.CarId = int.Parse(Console.ReadLine());
+            Console.Write("CustomerId : ");
+            insertedRental.CustomerId = int.Parse(Console.ReadLine());
+            Console.Write("RentDate : ");
+            insertedRental.RentDate = DateTime.Parse(Console.ReadLine());
+            Console.Write("ReturnDate : ");
+            string stringReturnDate = Console.ReadLine();
+            if (stringReturnDate != "")
+                insertedRental.ReturnDate = DateTime.Parse(stringReturnDate);
+            else
+                insertedRental.ReturnDate = null;
+            var result = rentalManager.Add(insertedRental);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        static void RentalUpdate(RentalManager rentalManager)
+        {
+            Console.Write("Güncellemek istediğiniz kiralamanın idsini giriniz : ");
+            int rentalIdUpdate = int.Parse(Console.ReadLine());
+            Rental? updatedRental = rentalManager.GetById(rentalIdUpdate).Data;
+            Console.Write("CarId : ");
+            updatedRental.CarId = int.Parse(Console.ReadLine());
+            Console.Write("CustomerId : ");
+            updatedRental.CustomerId = int.Parse(Console.ReadLine());
+            Console.Write("RentDate : ");
+            updatedRental.RentDate = DateTime.Parse(Console.ReadLine());
+            Console.Write("ReturnDate : ");
+            string stringReturnDate = Console.ReadLine();
+            if (stringReturnDate != "")
+                updatedRental.ReturnDate = DateTime.Parse(stringReturnDate);
+            else
+                updatedRental.ReturnDate = null;
+            var result = rentalManager.Update(updatedRental);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        static void RentalDelete(RentalManager rentalManager)
+        {
+            Rental deletedRental = new Rental();
+            Console.Write("Silmek istediğiniz kiralamanın idsini giriniz : ");
+            deletedRental.Id = int.Parse(Console.ReadLine());
+            var result = rentalManager.Delete(deletedRental);
+            if (result.Success)
+                Console.WriteLine(result.Message);
+            else
+                Console.WriteLine(result.Message);
+        }
+        #endregion
     }
 }
