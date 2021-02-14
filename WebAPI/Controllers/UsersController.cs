@@ -11,18 +11,18 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        IBrandService _brandService;
+        IUserService _userService;
 
-        public BrandsController(IBrandService brandService)
+        public UsersController(IUserService userService)
         {
-            _brandService = brandService;
+            _userService = userService;
         }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _brandService.GetAll();
+            var result = _userService.GetAll();
 
             if (result.Success)
             {
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _brandService.GetById(id);
+            var result = _userService.GetById(id);
 
             if (result.Success)
             {
@@ -42,9 +42,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public IActionResult Add(Brand brand)
+        public IActionResult Add(User user)
         {
-            var result = _brandService.Add(brand);
+            var result = _userService.Add(user);
 
             if (result.Success)
             {
@@ -53,9 +53,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("update")]
-        public IActionResult Update(Brand brand)
+        public IActionResult Update(User user)
         {
-            var result = _brandService.Update(brand);
+            var result = _userService.Update(user);
 
             if (result.Success)
             {
@@ -64,9 +64,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("delete")]
-        public IActionResult Delete(Brand brand)
+        public IActionResult Delete(User user)
         {
-            var result = _brandService.Delete(brand);
+            var result = _userService.Delete(user);
 
             if (result.Success)
             {

@@ -11,18 +11,18 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class CustomersController : ControllerBase
     {
-        IBrandService _brandService;
+        ICustomerService _customerService;
 
-        public BrandsController(IBrandService brandService)
+        public CustomersController(ICustomerService customerService)
         {
-            _brandService = brandService;
+            _customerService = customerService;
         }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _brandService.GetAll();
+            var result = _customerService.GetAll();
 
             if (result.Success)
             {
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var result = _brandService.GetById(id);
+            var result = _customerService.GetById(id);
 
             if (result.Success)
             {
@@ -42,9 +42,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
-        public IActionResult Add(Brand brand)
+        public IActionResult Add(Customer customer)
         {
-            var result = _brandService.Add(brand);
+            var result = _customerService.Add(customer);
 
             if (result.Success)
             {
@@ -53,9 +53,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("update")]
-        public IActionResult Update(Brand brand)
+        public IActionResult Update(Customer customer)
         {
-            var result = _brandService.Update(brand);
+            var result = _customerService.Update(customer);
 
             if (result.Success)
             {
@@ -64,9 +64,20 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("delete")]
-        public IActionResult Delete(Brand brand)
+        public IActionResult Delete(Customer customer)
         {
-            var result = _brandService.Delete(brand);
+            var result = _customerService.Delete(customer);
+
+            if (result.Success)
+            {
+                Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getdetails")]
+        public IActionResult GetDetails()
+        {
+            var result = _customerService.GetCustomerDetails();
 
             if (result.Success)
             {
