@@ -15,8 +15,8 @@ namespace ConsoleUI
             // ColorServiceTest();
             // UserServiceTest();
             // CustomerServiceTest();
-            RentalServiceTest();
-
+            // RentalServiceTest();
+          
             Console.ReadKey();
         }
 
@@ -412,6 +412,7 @@ namespace ConsoleUI
             UserManager userManager = new UserManager(new EfUserDal());
 
             CustomerGetAll(customerManager);
+            CustomerGetDetails(customerManager);
             CustomerGetById(customerManager);
             Console.ReadKey();
 
@@ -439,6 +440,14 @@ namespace ConsoleUI
             foreach (var customer in customerManager.GetAll().Data)
             {
                 Console.WriteLine(customer.Id + "\t" + customer.UserId + "\t" + customer.CompanyName);
+            }
+        }
+        static void CustomerGetDetails(CustomerManager customerManager)
+        {
+            Console.WriteLine("\nCustomers,\nId\tUserName\tCompanyName");
+            foreach (var customer in customerManager.GetCustomerDetails().Data)
+            {
+                Console.WriteLine(customer.Id + "\t" + customer.UserName + "\t" + customer.CompanyName);
             }
         }
         static void CustomerGetById(CustomerManager customerManager)
@@ -498,6 +507,7 @@ namespace ConsoleUI
             CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
 
             RentalGetAll(rentalManager);
+            RentalGetDetails(rentalManager);
             RentalGetById(rentalManager);
             Console.ReadKey();
 
@@ -526,6 +536,14 @@ namespace ConsoleUI
             foreach (var rental in rentalManager.GetAll().Data)
             {
                 Console.WriteLine(rental.Id + "\t" + rental.CarId + "\t" + rental.CustomerId + "\t\t" + rental.RentDate + "\t" + rental.ReturnDate);
+            }
+        }
+        static void RentalGetDetails(RentalManager rentalManager)
+        {
+            Console.WriteLine("\nRentals,\nId\tCarName\tCustomerName\tRentDate\t\tRetrunDate");
+            foreach (var rental in rentalManager.GetRentalDetails().Data)
+            {
+                Console.WriteLine(rental.Id + "\t" + rental.CarName + "\t" + rental.CustomerName + "\t\t" + rental.RentDate + "\t" + rental.ReturnDate);
             }
         }
         static void RentalGetById(RentalManager rentalManager)
