@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Untilities;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -28,19 +30,20 @@ namespace Business.Concrete
         }
         public IResult Add(Color color)
         {
+            ValidationTool.Validate(new CarValidator(), color);
             _colorDal.Add(color);
             return new SuccessResult(Messages.ColorAdded);
         }
-
+        public IResult Update(Color color)
+        {
+            ValidationTool.Validate(new CarValidator(), color);
+            _colorDal.Update(color);
+            return new SuccessResult(Messages.ColorUpdated);
+        }
         public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
             return new SuccessResult(Messages.ColorDeleted);
-        }
-        public IResult Update(Color color)
-        {
-            _colorDal.Update(color);
-            return new SuccessResult(Messages.ColorUpdated);
         }
     }
 }

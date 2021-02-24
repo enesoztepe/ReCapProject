@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Untilities;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -40,42 +42,21 @@ namespace Business.Concrete
         }
         public IResult Add(Car car)
         {
-            if (car.Name.Length < 2)
-            {
-                return new ErrorResult(Messages.CarNameInvalid);
-            }
-            else if (car.DailyPrice < 0)
-            {
-                return new ErrorResult(Messages.CarDailyPriceInvalid);
-            }
-            else
-            {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.CarAdded); 
-            }
+            ValidationTool.Validate(new CarValidator(), car);
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded); 
+        }
+        public IResult Update(Car car)
+        {
+            ValidationTool.Validate(new CarValidator(), car);
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
-        public IResult Update(Car car)
-        {
-            if (car.Name.Length < 2)
-            {
-                return new ErrorResult(Messages.CarNameInvalid);
-            }
-            else if (car.DailyPrice < 0)
-            {
-                return new ErrorResult(Messages.CarDailyPriceInvalid);
-            }
-            else
-            {
-                _carDal.Update(car);
-                return new SuccessResult(Messages.CarUpdated);
-            }
-        }
-
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());

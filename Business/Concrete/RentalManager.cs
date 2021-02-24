@@ -20,45 +20,23 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            List<Rental> carRentals = _rentalDal.GetAll(r => r.CarId == rental.CarId);
-            if (carRentals.Count == 0)
+            if (ControlReturnTime(rental.CarId).Success)
             {
                 _rentalDal.Add(rental);
                 return new SuccessResult(Messages.RentalAdded);
             }
             else
-            {
-                foreach (var car in carRentals)
-                {
-                    if (car.ReturnDate == null)
-                    {
-                        return new ErrorResult(Messages.NotRentable);
-                    }
-                }
-            }
-            _rentalDal.Add(rental);
-            return new SuccessResult(Messages.RentalAdded);
+               return new ErrorResult(Messages.NotRentable);
         }
         public IResult Update(Rental rental)
         {
-            List<Rental> carRentals = _rentalDal.GetAll(r => r.CarId == rental.CarId);
-            if (carRentals.Count == 0)
+            if (ControlReturnTime(rental.CarId).Success)
             {
                 _rentalDal.Update(rental);
                 return new SuccessResult(Messages.RentalUpdated);
             }
             else
-            {
-                foreach (var car in carRentals)
-                {
-                    if (car.ReturnDate == null)
-                    {
-                        return new ErrorResult(Messages.NotRentable);
-                    }
-                }
-            }
-            _rentalDal.Update(rental);
-            return new SuccessResult(Messages.RentalUpdated);
+                return new ErrorResult(Messages.NotRentable);
         }
 
         public IResult Delete(Rental rental)
@@ -76,7 +54,23 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == id));
         }
-
+        public IResult ControlReturnTime(int id)
+        {
+            List<Rental> carRentals = _rentalDal.GetAll(r => r.CarId == id);
+            if (carRentals.Count == 0)
+                return new SuccessResult();
+            else
+            {
+                foreach (var car in carRentals)
+                {
+                    if (car.ReturnDate == null)
+                    {
+                        return new ErrorResult();
+                    }
+                }
+            }
+            return new SuccessResult();
+        }
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
