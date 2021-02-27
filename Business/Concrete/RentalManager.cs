@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Untilities;
+using Core.Untilities.Business;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -22,24 +23,20 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            if (ControlReturnTime(rental.CarId).Success)
-            {
-                _rentalDal.Add(rental);
-                return new SuccessResult(Messages.RentalAdded);
-            }
-            else
-               return new ErrorResult(Messages.NotRentable);
+            IResult result = BusinessRules.Run(ControlReturnTime(rental.CarId));
+            if (result != null)
+                return result;
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.RentalAdded);
         }
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Update(Rental rental)
         {
-            if (ControlReturnTime(rental.CarId).Success)
-            {
-                _rentalDal.Update(rental);
-                return new SuccessResult(Messages.RentalUpdated);
-            }
-            else
-                return new ErrorResult(Messages.NotRentable);
+            IResult result = BusinessRules.Run(ControlReturnTime(rental.CarId));
+            if (result != null)
+                return result;
+            _rentalDal.Update(rental);
+            return new SuccessResult(Messages.RentalUpdated);
         }
 
         public IResult Delete(Rental rental)
@@ -68,7 +65,7 @@ namespace Business.Concrete
                 {
                     if (car.ReturnDate == null)
                     {
-                        return new ErrorResult();
+                        return new ErrorResult(Messages.NotRentable);
                     }
                 }
             }
