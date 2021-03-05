@@ -24,16 +24,16 @@ namespace Business.Concrete
             var result = CheckIfImageCountOfCarExceeded(carImage.CarId);
 
             if (!result.Success)
-            {
                 return result;
-            }
             string path = @"C:\Users\Enes\source\repos\enesoztepe\ReCapProject\DataAccess\Images\"
                                             + carImage.CarId + "-picture-" + result.Data + ".jpg";
+
             using (FileStream fileStream = System.IO.File.Create(path))
             {
                 file.CopyTo(fileStream);
                 fileStream.Flush();
             }
+
             carImage.ImagePath = path;
             carImage.Date = DateTime.Now;
             _carImageDal.Add(carImage);
@@ -41,6 +41,7 @@ namespace Business.Concrete
         }
         public IResult Update(CarImage carImage, IFormFile file)
         {
+
             var result = _carImageDal.Get(c => c.Id == carImage.Id);
             if (result == null)
             {
@@ -70,7 +71,6 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
-
         public IDataResult<CarImage> GetById(int id)
         {
             var result = _carImageDal.Get(c => c.Id == id);

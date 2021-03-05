@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -345,7 +346,7 @@ namespace ConsoleUI
             Console.WriteLine("\nUsers,\nId\tFName\tLName\tEmail\t\t\tPassword");
             foreach (var user in userManager.GetAll().Data)
             {
-                Console.WriteLine(user.Id + "\t" + user.FirstName + "\t" + user.LastName + "\t" + user.Email + "\t" + user.Password);
+                Console.WriteLine(user.Id + "\t" + user.FirstName + "\t" + user.LastName + "\t" + user.Email);
             }
         }
         static void UserGetById(UserManager userManager)
@@ -353,7 +354,7 @@ namespace ConsoleUI
             Console.Write("Id giriniz : ");
             int id = int.Parse(Console.ReadLine());
             User user = userManager.GetById(id).Data;
-            Console.WriteLine(user.Id + "\t" + user.FirstName + "\t" + user.LastName + "\t" + user.Email + "\t" + user.Password);
+            Console.WriteLine(user.Id + "\t" + user.FirstName + "\t" + user.LastName + "\t" + user.Email);
         }
         static void UserInsert(UserManager userManager)
         {
@@ -365,8 +366,8 @@ namespace ConsoleUI
             insertedUser.LastName = Console.ReadLine();
             Console.Write("Email : ");
             insertedUser.Email = Console.ReadLine();
-            Console.Write("Password : ");
-            insertedUser.Password = Console.ReadLine();
+//            Console.Write("Password : ");
+//            insertedUser.Password = Console.ReadLine();
             var result = userManager.Add(insertedUser);
             if (result.Success)
                 Console.WriteLine(result.Message);
@@ -384,8 +385,8 @@ namespace ConsoleUI
             updatedUser.LastName = Console.ReadLine();
             Console.Write("Email : ");
             updatedUser.Email = Console.ReadLine();
-            Console.Write("Password : ");
-            updatedUser.Password = Console.ReadLine();
+//            Console.Write("Password : ");
+//            updatedUser.Password = Console.ReadLine();
             var result = userManager.Update(updatedUser);
             if (result.Success)
                 Console.WriteLine(result.Message);
@@ -555,7 +556,7 @@ namespace ConsoleUI
         }
         static void RentalInsert(RentalManager rentalManager)
         {
-            Rental? insertedRental = new Rental();
+            Rental insertedRental = new Rental();
             Console.WriteLine("Kiralama bilgilerini giriniz,");
             Console.Write("CarId : ");
             insertedRental.CarId = int.Parse(Console.ReadLine());
@@ -579,7 +580,7 @@ namespace ConsoleUI
         {
             Console.Write("Güncellemek istediğiniz kiralamanın idsini giriniz : ");
             int rentalIdUpdate = int.Parse(Console.ReadLine());
-            Rental? updatedRental = rentalManager.GetById(rentalIdUpdate).Data;
+            Rental updatedRental = rentalManager.GetById(rentalIdUpdate).Data;
             Console.Write("CarId : ");
             updatedRental.CarId = int.Parse(Console.ReadLine());
             Console.Write("CustomerId : ");
