@@ -12,6 +12,7 @@ using Entities.DTOs;
 using Business.BusinessAspects.Autofac;
 using System;
 using System.Collections.Generic;
+using Core.Aspects.Autofac.Transaction;
 using System.Text;
 
 namespace Business.Concrete
@@ -73,6 +74,18 @@ namespace Business.Concrete
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            Add(car);
+            if (car.DailyPrice < 10)
+            {
+                throw new Exception("");
+            }
+            Add(car);
+            return null;
         }
     }
 }
