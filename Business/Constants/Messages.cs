@@ -37,5 +37,7 @@ namespace Business.Constants
         public static string CarImageUpdated = "Araba resmi güncellendi";
         public static string CarImageDeleted = "Araba resmi silindi";
         public static string ImageCountOfCarError = "Arabaya yeni resim eklenilemez";
+
+        public static string AuthorizationDenied = "Erişim reddedildi";
     }
 }

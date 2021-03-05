@@ -5,7 +5,7 @@ using Business.Concrete;
 using Castle.DynamicProxy;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
-using Core.Untilities.Interceptors;
+using Core.Utilities.Interceptors;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Untilities.Business
+namespace Core.Utilities.Business
 {
     public class BusinessRules
     {

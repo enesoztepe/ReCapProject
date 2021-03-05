@@ -1,7 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Untilities;
-using Core.Untilities.Business;
+using Core.Utilities;
+using Core.Utilities.Business;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;

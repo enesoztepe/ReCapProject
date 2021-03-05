@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Untilities
+namespace Core.Utilities
 {
     public interface IDataResult<T> : IResult
     {
